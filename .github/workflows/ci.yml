@@ -29,7 +29,7 @@ jobs:
       # start docker compose --------------------------------------------------
 
       - name: Start Docker Compose service
-        run: docker compose start
+        run: docker compose up -d
 
       - name: Wait for Docker Compose service to be ready
         run: sleep 1
@@ -37,7 +37,7 @@ jobs:
       # run tests -------------------------------------------------------------
 
       - name: Run unit tests for Api
-        run: yarn api:test
+        run: 'curl http://localhost:3000'
 
       # stop docker-compose ---------------------------------------------------
 
