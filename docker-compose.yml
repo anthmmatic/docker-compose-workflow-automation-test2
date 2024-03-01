@@ -1,0 +1,14 @@
+version: '3.9'
+
+services:
+  api:
+    network_mode: host
+    container_name: gh-test-api
+    image: node:20
+
+    working_dir: /usr/src/app/
+    volumes:
+      - ./:/usr/src/app/
+    command: ['yarn', 'dev']
+    ports:
+      - '3000:3000'

@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+permissions:
+  contents: write
+
+jobs:
+  continuous-integration:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'yarn'
+
+      # install dependencies --------------------------------------------------
+
+      - name: Install dependencies for Api
+        run: yarn
+
+      # start docker compose --------------------------------------------------
+
+      - name: Start Docker Compose service
+        run: docker compose start
+
+      - name: Wait for Docker Compose service to be ready
+        run: sleep 1
+
+      # run tests -------------------------------------------------------------
+
+      - name: Run unit tests for Api
+        run: yarn api:test
+
+      # stop docker-compose ---------------------------------------------------
+
+      - name: Stop Docker Compose service
+        if: always()
+        run: docker compose stop
