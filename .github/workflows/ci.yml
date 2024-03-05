@@ -32,7 +32,7 @@ jobs:
         run: docker compose up -d
 
       - name: Wait for Docker Compose service to be ready
-        run: sleep 1
+        run: sleep 15
 
       # run tests -------------------------------------------------------------
 
